@@ -1,5 +1,5 @@
 import Dashboard from "../components/Dashboard";
-import Products from "../components/Products";
+import Products from "../components/products/Products";
 import Orders from "../components/Orders";
 import Customers from "../components/Customers";
 import Categories from "../components/Categories";

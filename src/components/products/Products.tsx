@@ -1,8 +1,15 @@
-import { Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 import styled from "styled-components";
 import { BiSearchAlt } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiFilter } from "react-icons/fi";
+import ProductTable from "./ProductTable";
 
 export default function Products() {
   return (
@@ -57,13 +64,22 @@ export default function Products() {
                     Something else
                   </Dropdown.Item>
                 </DropdownButton>
-                <button className="btn btn-secondary"><FiFilter /> FILTER</button>
+                <button className="btn btn-secondary">
+                  <FiFilter /> FILTER
+                </button>
                 <div className="search">
                   <input type="text" placeholder="Search" />
                   <BiSearchAlt />
                 </div>
               </StyledForm>
             </div>
+          </Col>
+        </Row>
+      </Container>
+      <Container>
+        <Row>
+          <Col className="mx-3 mt-5">
+            <ProductTable />
           </Col>
         </Row>
       </Container>
