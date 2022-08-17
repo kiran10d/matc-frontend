@@ -70,7 +70,7 @@ const SideNavBar = styled.div`
   max-width: 280px;
   width: 100%;
   height: 100%;
-  padding: 30px 0 30px 16px;
+  padding: 20px 0 20px 16px;
   background-color: #f1f2f6;
   overflow: auto;
 `;
