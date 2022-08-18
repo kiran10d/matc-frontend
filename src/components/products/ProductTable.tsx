@@ -1,8 +1,9 @@
 import Table from "react-bootstrap/Table";
 
-function ProductTable() {
+function ProductTable(props: any) {
+  const { products } = props;
   return (
-    <Table striped bordered hover>
+    <Table striped>
       <thead>
         <tr>
           <th>id</th>
@@ -15,24 +16,24 @@ function ProductTable() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
+        {
+          (products.length === 0 && (
+            <tr>
+              <td colSpan={7} className="text-center">No Products Found</td>
+            </tr>
+          ))
+        }
+        {products?.map((product: any) => (
+          <tr key={product.id}>
+            <td>{product.id}</td>
+            <td>{product.attributes.Name}</td>
+            <td>{product.attributes.SKU}</td>
+            <td>{product.attributes.Stock ? "stock " : "out of stock"}</td>
+            <td>{product.attributes.Price}</td>
+            <td>{product.attributes.Categories}</td>
+            <td>{product.attributes.publishedAt}</td>
+          </tr>
+        ))}
       </tbody>
     </Table>
   );

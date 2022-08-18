@@ -40,5 +40,11 @@ export default createGlobalStyle`
     color: #707070;
     font-size: 14px;
   }
+  .modal-content{
+    border-radius: 0;
+  }
+  .rounded-0 .MuiInputBase-formControl{
+    border-radius: 0;
+  }
 
 `;
