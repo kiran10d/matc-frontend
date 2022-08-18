@@ -45,6 +45,15 @@ function AddProductModel(props: any) {
     })
       .then((res) => {
         getDataFromChild(res.status);
+        setAddProducts({
+          Categories: "",
+          Description: "",
+          Name: "",
+          Price: "",
+          SKU: "",
+          Slug: "",
+          Stock: "",
+        });
       })
       .catch((err) => {
         console.log(err, "err");
@@ -120,7 +129,7 @@ function AddProductModel(props: any) {
               <Select
                 className="rounded-0"
                 label="Stock"
-                value={AddProducts.Stock === true ? "In Stock" : "Out Of Stock"}
+                value={typeof AddProducts.Stock !== "string" ? `${AddProducts.Stock === true ? "In Stock" : "Out Of Stock"}` : ''}
                 onChange={(e) =>
                   setAddProducts({
                     ...AddProducts,
