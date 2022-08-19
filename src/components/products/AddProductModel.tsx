@@ -43,7 +43,7 @@ function AddProductModel(props: any) {
       },
     })
       .then((res) => {
-        getDataFromChild(res.status);
+        getDataFromChild(Math.random());
         setAddProducts({
           Categories: "",
           Description: "",

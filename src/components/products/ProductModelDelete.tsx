@@ -10,7 +10,7 @@ export default function ProductModelDelete(props: any) {
     axios
       .delete(ProductsURLWithID(id))
       .then(function (response) {
-        getDataFromChild(response.status);
+        getDataFromChild(Math.random());
         handleClose();
       })
       .catch(function (error) {

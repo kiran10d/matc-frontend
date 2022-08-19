@@ -32,9 +32,9 @@ function ProductTable(props: any) {
 
   const { products, setUpdate, getDataFromChild, category } = props;
 
-  const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
+  const HtmlTooltip = styled(({ className, ...prop }: TooltipProps) => (
+    <Tooltip {...prop} classes={{ popper: className }} />
+  ))(() => ({
     [`& .${tooltipClasses.tooltip}`]: {
       backgroundColor: "#f5f5f9",
       color: "rgba(0, 0, 0, 0.87)",
