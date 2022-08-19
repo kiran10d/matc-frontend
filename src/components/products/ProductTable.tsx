@@ -1,14 +1,25 @@
 import Table from "react-bootstrap/Table";
 import { BsThreeDots } from "react-icons/bs";
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { FiEdit2 } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 
+import { SetStateAction, useState } from "react";
+import ProductModelDelete from "./ProductModelDelete";
 
 function ProductTable(props: any) {
-  const { products } = props;
+  const [show, setShow] = useState<boolean>(false);
+  const [deleteId, setdeleteId] = useState();
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id: SetStateAction<undefined>) => {
+    setdeleteId(id);
+    setShow(true);
+  }
+
+  const { products, setUpdate, getDataFromChild } = props;
 
   const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -23,62 +34,72 @@ function ProductTable(props: any) {
     },
   }));
 
-  
   return (
-    <Table striped>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>Name</th>
-          <th>SKU</th>
-          <th>Stock</th>
-          <th>Price</th>
-          <th>Categories</th>
-          <th>Date</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.length === 0 && (
+    <>
+      <Table striped>
+        <thead>
           <tr>
-            <td colSpan={7} className="text-center">
-              No Products Found
-            </td>
+            <th>id</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Categories</th>
+            <th>Date</th>
+            <th></th>
           </tr>
-        )}
-        {products?.map((product: any, index: number) => (
-          <tr key={product.id}>
-            <td>{product.id}</td>
-            <td>{product.attributes.Name}</td>
-            <td>{product.attributes.SKU}</td>
-            <td>{product.attributes.Stock ? "stock " : "out of stock"}</td>
-            <td>{product.attributes.Price}</td>
-            <td>{product.attributes.Categories}</td>
-            <td>{product.attributes.publishedAt}</td>
-            <td>
-              <HtmlTooltip
-                title={
-                  <StyledToolTip>
-                    <button onClick={() => console.log(index)}>
-                      <FiEdit2 /> Edit
-                    </button>
-                    <button onClick={() => console.log(index)}>
-                      <MdDeleteOutline /> Delete
-                    </button>
-                  </StyledToolTip>
-                }
-              >
-                <Button>
-                  <BsThreeDots />
-                </Button>
-              </HtmlTooltip>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {products.length === 0 && (
+            <tr>
+              <td colSpan={8} className="text-center">
+                No Products Found
+              </td>
+            </tr>
+          )}
+          {products?.map((product: any, index: number) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>{product.attributes.Name}</td>
+              <td>{product.attributes.SKU}</td>
+              <td>{product.attributes.Stock ? "stock " : "out of stock"}</td>
+              <td>{product.attributes.Price}</td>
+              <td>{product.attributes.Categories}</td>
+              <td>{product.attributes.publishedAt}</td>
+              <td>
+                <HtmlTooltip
+                  title={
+                    <StyledToolTip>
+                      <button onClick={() => console.log(index)}>
+                        <FiEdit2 /> Edit
+                      </button>
+                      <button onClick={() => handleShow(product.id)}>
+                        <MdDeleteOutline /> Delete
+                      </button>
+                    </StyledToolTip>
+                  }
+                >
+                  <Button>
+                    <BsThreeDots />
+                  </Button>
+                </HtmlTooltip>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <ProductModelDelete
+        show={show}
+        handleClose={handleClose}
+        setUpdate={setUpdate}
+        deleteId={deleteId}
+        getDataFromChild={getDataFromChild}
+      />
+    </>
   );
 }
+
+export default ProductTable;
 
 const StyledToolTip = styled.div`
   padding: 10px;
@@ -99,10 +120,8 @@ const StyledToolTip = styled.div`
     &:hover {
       background-color: white;
     }
-    svg{
+    svg {
       font-size: 18px;
     }
   }
 `;
-
-export default ProductTable;

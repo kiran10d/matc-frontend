@@ -17,14 +17,13 @@ export default function Products() {
   const [products, setProducts] = useState<any>();
   const [update, setUpdate] = useState<any>();
   const [productsData, setProductsData] = useState<any>([]);
+  const [show, setShow] = useState(false);
   const [filter, setFilter] = useState<any>({
     category: "",
     stock: "",
     price: "",
     search: "",
   });
-
-  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -110,7 +109,7 @@ export default function Products() {
     );
     setProductsData(filterSearch);
   };
-  console.log(products, "products");
+
 
   return (
     <div className="main-container">
@@ -197,7 +196,7 @@ export default function Products() {
       <Container>
         <Row>
           <Col className="mx-3 mt-5">
-            <ProductTable products={productsData} />
+            <ProductTable products={productsData} setUpdate={setUpdate} getDataFromChild={getDataFromChild}/>
           </Col>
         </Row>
       </Container>
