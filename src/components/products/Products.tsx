@@ -29,6 +29,7 @@ export default function Products() {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
+
     axios
       .get(productsURL())
       .then(function (response) {
@@ -196,7 +197,7 @@ export default function Products() {
       <Container>
         <Row>
           <Col className="mx-3 mt-5">
-            <ProductTable products={productsData} setUpdate={setUpdate} getDataFromChild={getDataFromChild}/>
+            <ProductTable products={productsData} setUpdate={setUpdate} getDataFromChild={getDataFromChild} category={category}/>
           </Col>
         </Row>
       </Container>

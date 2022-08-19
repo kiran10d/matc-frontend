@@ -19,7 +19,6 @@ function AddProductModel(props: any) {
     Slug: "",
     Stock: "",
   });
-  console.log(AddProducts);
 
   const HandleSubmit = (e: any) => {
     e.preventDefault();

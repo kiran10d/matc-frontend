@@ -8,18 +8,29 @@ import styled from "styled-components";
 
 import { SetStateAction, useState } from "react";
 import ProductModelDelete from "./ProductModelDelete";
+import ProductModelEdit from "./ProductModelEdit";
 
 function ProductTable(props: any) {
   const [show, setShow] = useState<boolean>(false);
+  const [showEditModel, setShowEditModel] = useState<boolean>(false);
+
   const [deleteId, setdeleteId] = useState();
+  const [editId, setEditId] = useState();
 
   const handleClose = () => setShow(false);
+  const handleCloseEditModel = () => setShowEditModel(false);
+
   const handleShow = (id: SetStateAction<undefined>) => {
     setdeleteId(id);
     setShow(true);
-  }
+  };
 
-  const { products, setUpdate, getDataFromChild } = props;
+  const handleShowEditModel = (id: SetStateAction<undefined>) => {
+    setEditId(id);
+    setShowEditModel(true);
+  };
+
+  const { products, setUpdate, getDataFromChild, category } = props;
 
   const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -70,7 +81,7 @@ function ProductTable(props: any) {
                 <HtmlTooltip
                   title={
                     <StyledToolTip>
-                      <button onClick={() => console.log(index)}>
+                      <button onClick={() => handleShowEditModel(product.id)}>
                         <FiEdit2 /> Edit
                       </button>
                       <button onClick={() => handleShow(product.id)}>
@@ -94,6 +105,14 @@ function ProductTable(props: any) {
         setUpdate={setUpdate}
         deleteId={deleteId}
         getDataFromChild={getDataFromChild}
+      />
+      <ProductModelEdit
+        getDataFromChild={getDataFromChild}
+        products={products}
+        editId={editId}
+        show={showEditModel}
+        handleClose={handleCloseEditModel}
+        category={category}
       />
     </>
   );
