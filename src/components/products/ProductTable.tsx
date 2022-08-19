@@ -68,7 +68,7 @@ function ProductTable(props: any) {
               </td>
             </tr>
           )}
-          {products?.map((product: any, index: number) => (
+          {products?.map((product: any) => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.attributes.Name}</td>

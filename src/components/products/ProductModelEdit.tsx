@@ -6,12 +6,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
-import { deleteProductsURL } from "../../Api";
+import { ProductsURLWithID } from "../../Api";
 
 export default function ProductModelEdit(props: any) {
   const { show, handleClose, editId, category, products } =
     props;
   const [editProducts, setEditProducts] = useState<any>({});
+  const editProductData = editProducts?.Stock === true ? "In Stock" : "Out Of Stock"
 
   useEffect(() => {
     const filterProduct = products?.filter(
@@ -23,10 +24,10 @@ export default function ProductModelEdit(props: any) {
   }, [editId]);
 
   //Edit API
-  const HandleSubmit = (editId: number) => {
+  const HandleSubmit = (id: number) => {
     axios({
       method: "put",
-      url: deleteProductsURL(editId),
+      url: ProductsURLWithID(id),
       data: {
         data: {
           Categories: editProducts.Categories,
@@ -117,12 +118,7 @@ export default function ProductModelEdit(props: any) {
                 label="Stock"
                 value={
                   typeof editProducts?.Stock !== "string"
-                    ? `${
-                        editProducts?.Stock === true
-                          ? "In Stock"
-                          : "Out Of Stock"
-                      }`
-                    : ""
+                    ? editProductData : ""
                 }
                 onChange={(e) =>
                   setEditProducts({

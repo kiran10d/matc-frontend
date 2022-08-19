@@ -1,14 +1,14 @@
 import { Modal, Button } from "react-bootstrap";
-import { deleteProductsURL } from "../../Api";
+import { ProductsURLWithID } from "../../Api";
 import axios from "axios";
 
 export default function ProductModelDelete(props: any) {
   const { show, handleClose, deleteId, getDataFromChild } = props;
 
   //Delete API
-  const handleDelete = (deleteId: number) => {
+  const handleDelete = (id: number) => {
     axios
-      .delete(deleteProductsURL(deleteId))
+      .delete(ProductsURLWithID(id))
       .then(function (response) {
         getDataFromChild(response.status);
         handleClose();

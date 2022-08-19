@@ -17,7 +17,7 @@ export default function NavBar() {
     <SideNavBar>
       <Profile>
         <img
-          src={"http://admin.reactstorefronts.com/img/user/admin.jpg"}
+          src={"https://admin.reactstorefronts.com/img/user/admin.jpg"}
           alt="profile"
         />
         <div>
@@ -54,7 +54,7 @@ export default function NavBar() {
       </NavLink>
       <CopyRight>
         <img
-          src={"http://admin.reactstorefronts.com/img/logo.png"}
+          src={"https://admin.reactstorefronts.com/img/logo.png"}
           alt="logo"
         />
         <p>©2020 Martfury marketplace. All rights reversed.</p>

@@ -7,6 +7,6 @@ const productsImages = `/api/products?populate=*`;
 
 
 export const productsURL = () => `${base_url}${products}`;
-export const deleteProductsURL = (id: number) => `${base_url}${products}/${id}`;
+export const ProductsURLWithID = (id: number) => `${base_url}${products}/${id}`;
 
 export const productsImgURL = () => `${base_url}${productsImages}`;

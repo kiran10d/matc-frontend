@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 
-export default function Customers() {
+export default function Header() {
   const location = useLocation();
   const path = location.pathname.replace("/", "");
   console.log(location.pathname, path);
