@@ -45,6 +45,8 @@ function ProductTable(props: any) {
     },
   }));
 
+  console.log(products, "products");
+
   return (
     <>
       <Table striped>
@@ -61,42 +63,55 @@ function ProductTable(props: any) {
           </tr>
         </thead>
         <tbody>
-          {products.length === 0 && (
+          {products.length === 0 ? (
             <tr>
               <td colSpan={8} className="text-center">
                 No Products Found
               </td>
             </tr>
+          ) : (
+            <>
+              {products?.map((product: any) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>{product.attributes.Name}</td>
+                  <td>{product.attributes.SKU}</td>
+                  <td>
+                    {product.attributes.Stock ? "stock " : "out of stock"}
+                  </td>
+                  <td>{product.attributes.Price}</td>
+                  <td>
+                    {product.attributes.categorys?.data?.map(
+                      (category: any) => {
+                       return <p>{category.attributes.Name}</p>;
+                      }
+                    )}
+                  </td>
+                  <td>{product.attributes.publishedAt}</td>
+                  <td>
+                    <HtmlTooltip
+                      title={
+                        <StyledToolTip>
+                          <button
+                            onClick={() => handleShowEditModel(product.id)}
+                          >
+                            <FiEdit2 /> Edit
+                          </button>
+                          <button onClick={() => handleShow(product.id)}>
+                            <MdDeleteOutline /> Delete
+                          </button>
+                        </StyledToolTip>
+                      }
+                    >
+                      <Button>
+                        <BsThreeDots />
+                      </Button>
+                    </HtmlTooltip>
+                  </td>
+                </tr>
+              ))}
+            </>
           )}
-          {products?.map((product: any) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.attributes.Name}</td>
-              <td>{product.attributes.SKU}</td>
-              <td>{product.attributes.Stock ? "stock " : "out of stock"}</td>
-              <td>{product.attributes.Price}</td>
-              <td>{product.attributes.Categories}</td>
-              <td>{product.attributes.publishedAt}</td>
-              <td>
-                <HtmlTooltip
-                  title={
-                    <StyledToolTip>
-                      <button onClick={() => handleShowEditModel(product.id)}>
-                        <FiEdit2 /> Edit
-                      </button>
-                      <button onClick={() => handleShow(product.id)}>
-                        <MdDeleteOutline /> Delete
-                      </button>
-                    </StyledToolTip>
-                  }
-                >
-                  <Button>
-                    <BsThreeDots />
-                  </Button>
-                </HtmlTooltip>
-              </td>
-            </tr>
-          ))}
         </tbody>
       </Table>
       <ProductModelDelete

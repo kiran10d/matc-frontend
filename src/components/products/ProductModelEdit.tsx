@@ -9,18 +9,18 @@ import axios from "axios";
 import { ProductsURLWithID } from "../../Api";
 
 export default function ProductModelEdit(props: any) {
-  const { show, handleClose, editId, category, products } =
-    props;
+  const { show, handleClose, editId, category, products } = props;
   const [editProducts, setEditProducts] = useState<any>({});
-  const editProductData = editProducts?.Stock === true ? "In Stock" : "Out Of Stock"
+  const editProductData =
+    editProducts?.Stock === true ? "In Stock" : "Out Of Stock";
 
   useEffect(() => {
     const filterProduct = products?.filter(
       (d: { id: number }) => d.id === editId
     );
     setEditProducts(filterProduct[0]?.attributes);
-    console.log(editProducts, editId, "filterProduct");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // console.log(editProducts, editId, "filterProduct");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editId]);
 
   //Edit API
@@ -42,7 +42,7 @@ export default function ProductModelEdit(props: any) {
     });
   };
 
-  console.log(editProducts, "editProducts");
+  // console.log(editProducts, "editProducts");
 
   return (
     <div>
@@ -102,8 +102,8 @@ export default function ProductModelEdit(props: any) {
                   })
                 }
               >
-                {category?.map((data: any) => (
-                  <MenuItem value={data}>{data}</MenuItem>
+                {category?.data?.map((data: any) => (
+                  <MenuItem value={data.id}>{data.attributes.Name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -117,8 +117,7 @@ export default function ProductModelEdit(props: any) {
                 className="rounded-0"
                 label="Stock"
                 value={
-                  typeof editProducts?.Stock !== "string"
-                    ? editProductData : ""
+                  typeof editProducts?.Stock !== "string" ? editProductData : ""
                 }
                 onChange={(e) =>
                   setEditProducts({
@@ -157,10 +156,7 @@ export default function ProductModelEdit(props: any) {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button
-              variant="primary"
-              type="submit"
-            >
+            <Button variant="primary" type="submit">
               Edit Products
             </Button>
           </Modal.Footer>

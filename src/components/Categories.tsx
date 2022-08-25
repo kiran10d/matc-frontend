@@ -3,33 +3,32 @@ import { BiSearchAlt } from "react-icons/bi";
 import styled from "styled-components";
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-import { productsApi } from "../redux/ProductsSlice";
+import { categorysApi } from "../redux/CategorySlice";
 import { useAppDispatch, useAppSelector } from "../Hooks";
 import TextField from "@mui/material/TextField";
 
 export default function Categories() {
-  const [productsCategory, setProductsCategory] = useState([]);
+  const [category, setCategory] = useState([]);
   const [addCategory, setAddCategory] = useState("");
-  const { products, loading } = useAppSelector((state: any) => state.products);
+  const { categorys, loading } = useAppSelector((state: any) => state.category);
   const dispatch = useAppDispatch();
 
-  console.log(productsCategory, "loading", loading);
+  console.log(category, "loading", loading);
 
   useEffect(() => {
-    dispatch(productsApi());
-    setProductsCategory(products.data);
+    dispatch(categorysApi());
+    setCategory(categorys.data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   //Search Filter
   const handleSearchFilter = (event: any) => {
     let data = event.target.value;
-    const filterSearch = products?.data.filter(
+    const filterSearch = categorys?.data.filter(
       (d: { attributes: { Categories: string } }) =>
         d.attributes.Categories.toLowerCase().includes(data.toLowerCase())
     );
-    setProductsCategory(filterSearch);
+    setCategory(filterSearch);
   };
 
 
@@ -60,17 +59,17 @@ export default function Categories() {
                 </tr>
               </thead>
               <tbody>
-                {productsCategory?.length === 0 && (
+                {category?.length === 0 && (
                   <tr>
                     <td colSpan={8} className="text-center">
                       No Products Found
                     </td>
                   </tr>
                 )}
-                {productsCategory?.map((product: any) => (
+                {category?.map((product: any) => (
                   <tr key={product.id}>
-                    <td>{product.attributes.Categories}</td>
                     <td>{product.attributes.Name}</td>
+                    <td>{product.attributes.Slug}</td>
                     <td>{product.attributes.createdAt}</td>
                   </tr>
                 ))}

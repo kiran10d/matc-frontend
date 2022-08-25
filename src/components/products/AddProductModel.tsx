@@ -19,7 +19,7 @@ function AddProductModel(props: any) {
     Slug: "",
     Stock: "",
   });
-  const getStock = AddProducts.Stock === true ? "In Stock" : "Out Of Stock"
+  const getStock = AddProducts.Stock === true ? "In Stock" : "Out Of Stock";
   const HandleSubmit = (e: any) => {
     e.preventDefault();
     setAddProducts({
@@ -114,8 +114,8 @@ function AddProductModel(props: any) {
                   setAddProducts({ ...AddProducts, Categories: e.target.value })
                 }
               >
-                {category.map((data: any) => (
-                  <MenuItem value={data}>{data}</MenuItem>
+                {category?.data?.map((data: any) => (
+                  <MenuItem value={data.id}>{data.attributes.Name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -128,7 +128,7 @@ function AddProductModel(props: any) {
               <Select
                 className="rounded-0"
                 label="Stock"
-                value={typeof AddProducts.Stock !== "string" ? getStock : ''}
+                value={typeof AddProducts.Stock !== "string" ? getStock : ""}
                 onChange={(e) =>
                   setAddProducts({
                     ...AddProducts,

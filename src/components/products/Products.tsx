@@ -4,14 +4,15 @@ import { BiSearchAlt } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiFilter } from "react-icons/fi";
 import ProductTable from "./ProductTable";
-import { productsURL } from "../../Api";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import AddProductModel from "./AddProductModel";
+import { productsCategorysApi } from "../../redux/ProductsCategorySlice";
+import { categorysApi } from "../../redux/CategorySlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks";
 
 export default function Products() {
   const [products, setProducts] = useState<any>();
@@ -28,37 +29,42 @@ export default function Products() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  useEffect(() => {
+  const { productsCategorys } = useAppSelector(
+    (state: any) => state.productsCategory
+  );
 
-    axios
-      .get(productsURL())
-      .then(function (response) {
-        setProducts(response.data);
-        setProductsData(response.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [update]);
+  const { categorys } = useAppSelector((state: any) => state.category);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(productsCategorysApi());
+    dispatch(categorysApi());
+  }, [dispatch, update]);
+
+  useEffect(() => {
+    if (productsCategorys && !Array.isArray(productsCategorys)) {
+      setProducts(productsCategorys);
+      setProductsData(productsCategorys.data);
+    }
+  }, [productsCategorys]);
 
   //Callback function to get the data from child component
   const getDataFromChild = (index: any) => {
     setUpdate(index);
   };
 
-  //Category Array
-  const category = [
-    ...new Set(products?.data.map((data: any) => data.attributes.Categories)),
-  ];
-
   //Category filter
   const handleCategoryFilter = (event: SelectChangeEvent) => {
     let data = event.target.value;
     setFilter({ ...filter, category: data });
-    const filterCategory = products?.data.filter(
-      (d: { attributes: { Categories: string } }) =>
-        d.attributes.Categories === data
-    );
+
+    const filterCategory: any[] = [];
+    products?.data.map((d: { attributes: { categorys: { data: any[]; }; }; }) => {
+      let Arr = d.attributes.categorys.data.find((e: { attributes: { Name: string; }; }) => e.attributes.Name === data)
+      if(Arr) filterCategory.push(d)
+      return true;
+    })
     setProductsData(filterCategory);
   };
 
@@ -111,7 +117,6 @@ export default function Products() {
     setProductsData(filterSearch);
   };
 
-
   return (
     <div className="main-container">
       <Container>
@@ -137,8 +142,10 @@ export default function Products() {
                     onChange={handleCategoryFilter}
                     className="dropdown-select"
                   >
-                    {category.map((data: any) => (
-                      <MenuItem value={data}>{data}</MenuItem>
+                    {categorys?.data?.map((data: any) => (
+                      <MenuItem value={data.attributes.Name}>
+                        {data.attributes.Name}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -197,14 +204,19 @@ export default function Products() {
       <Container>
         <Row>
           <Col className="mx-3 mt-5">
-            <ProductTable products={productsData} setUpdate={setUpdate} getDataFromChild={getDataFromChild} category={category}/>
+            <ProductTable
+              products={productsData}
+              setUpdate={setUpdate}
+              getDataFromChild={getDataFromChild}
+              category={categorys}
+            />
           </Col>
         </Row>
       </Container>
       <AddProductModel
         show={show}
         handleClose={handleClose}
-        category={category}
+        category={categorys}
         getDataFromChild={getDataFromChild}
       />
     </div>
