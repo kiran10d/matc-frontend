@@ -12,7 +12,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import AddProductModel from "./AddProductModel";
 import { productsCategorysApi } from "../../redux/ProductsCategorySlice";
 import { categorysApi } from "../../redux/CategorySlice";
-import { useAppDispatch, useAppSelector } from "../../Hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/Hooks";
 
 export default function Products() {
   const [products, setProducts] = useState<any>();

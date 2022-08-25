@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import { categorysApi } from "../redux/CategorySlice";
-import { useAppDispatch, useAppSelector } from "../Hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/Hooks";
 import TextField from "@mui/material/TextField";
 
 export default function Categories() {
