@@ -82,8 +82,8 @@ function ProductTable(props: any) {
                   <td>{product.attributes.Price}</td>
                   <td>
                     {product.attributes.categorys?.data?.map(
-                      (category: any) => {
-                       return <p>{category.attributes.Name}</p>;
+                      (cat: any) => {
+                       return <p>{cat.attributes.Name}</p>;
                       }
                     )}
                   </td>

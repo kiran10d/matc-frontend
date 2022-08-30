@@ -42,7 +42,7 @@ function AddProductModel(props: any) {
         },
       },
     })
-      .then((res) => {
+      .then(() => {
         getDataFromChild(Math.random());
         setAddProducts({
           Categories: "",

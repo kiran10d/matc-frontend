@@ -9,7 +9,7 @@ export default function ProductModelDelete(props: any) {
   const handleDelete = (id: number) => {
     axios
       .delete(ProductsURLWithID(id))
-      .then(function (response) {
+      .then(function () {
         getDataFromChild(Math.random());
         handleClose();
       })

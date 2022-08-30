@@ -6,20 +6,28 @@ import { useEffect, useState } from "react";
 import { categorysApi } from "../redux/CategorySlice";
 import { useAppDispatch, useAppSelector } from "../hooks/Hooks";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
+import { categorysURL } from "../Api";
 
 export default function Categories() {
   const [category, setCategory] = useState([]);
-  const [addCategory, setAddCategory] = useState("");
-  const { categorys, loading } = useAppSelector((state: any) => state.category);
+  const [addCategory, setAddCategory] = useState({
+    Name: "",
+    Description: "",
+  });
+  const { categorys } = useAppSelector((state: any) => state.category);
   const dispatch = useAppDispatch();
-
-  console.log(category, "loading", loading);
 
   useEffect(() => {
     dispatch(categorysApi());
-    setCategory(categorys.data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, addCategory]);
+
+  useEffect(() => {
+    setCategory(categorys.data);
+  }, [categorys]);
+
+  const SLUG = addCategory.Name.toLowerCase().replace(/\s/g, "-");
 
   //Search Filter
   const handleSearchFilter = (event: any) => {
@@ -31,10 +39,30 @@ export default function Categories() {
     setCategory(filterSearch);
   };
 
-
   const handleAddCategory = (e: any) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    axios({
+      method: "post",
+      url: categorysURL(),
+      data: {
+        data: {
+          Name: addCategory.Name,
+          Description: addCategory.Description,
+          Slug: SLUG,
+        },
+      },
+    })
+      .then((res) => {
+        console.log(res, "res");
+        setAddCategory({
+          Name: "",
+          Description: "",
+        });
+      })
+      .catch((err) => {
+        console.log(err, "err");
+      });
+  };
 
   return (
     <div className="main-container">
@@ -59,36 +87,66 @@ export default function Categories() {
                 </tr>
               </thead>
               <tbody>
-                {category?.length === 0 && (
+                {category?.length === 0 ? (
                   <tr>
                     <td colSpan={8} className="text-center">
                       No Products Found
                     </td>
                   </tr>
+                ) : (
+                  <>
+                    {category?.map((product: any) => (
+                      <tr key={product.id}>
+                        <td>{product.attributes.Name}</td>
+                        <td>{product.attributes.Slug}</td>
+                        <td>{product.attributes.createdAt}</td>
+                      </tr>
+                    ))}
+                  </>
                 )}
-                {category?.map((product: any) => (
-                  <tr key={product.id}>
-                    <td>{product.attributes.Name}</td>
-                    <td>{product.attributes.Slug}</td>
-                    <td>{product.attributes.createdAt}</td>
-                  </tr>
-                ))}
               </tbody>
             </Table>
           </Col>
           <Col lg={4}>
-            <form>
+            <StyledForm onSubmit={(e) => handleAddCategory(e)}>
+              <h5>Add Category</h5>
               <TextField
-                label="Add Category"
+                label="Name"
                 type="text"
                 className="rounded-0"
-                onChange={(e) => setAddCategory(e.target.value)}
-                value={addCategory}
+                onChange={(e) =>
+                  setAddCategory({ ...addCategory, Name: e.target.value })
+                }
+                value={addCategory.Name}
+                fullWidth
               />
-              <Button variant="primary" type="submit" onClick={(e) => handleAddCategory(e)}>
+              <TextField
+                label="Slug"
+                type="text"
+                className="rounded-0"
+                value={SLUG}
+                fullWidth
+                disabled={true}
+              />
+              <TextField
+                label="Description"
+                type="text"
+                className="rounded-0"
+                multiline
+                rows={4}
+                fullWidth
+                onChange={(e) =>
+                  setAddCategory({
+                    ...addCategory,
+                    Description: e.target.value,
+                  })
+                }
+                value={addCategory.Description}
+              />
+              <Button variant="primary" type="submit">
                 Add Category
               </Button>
-            </form>
+            </StyledForm>
           </Col>
         </Row>
       </Container>
@@ -116,4 +174,10 @@ const StyledSearch = styled.div`
     right: 10px;
     transform: translateY(-50%);
   }
+`;
+const StyledForm = styled.form`
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;

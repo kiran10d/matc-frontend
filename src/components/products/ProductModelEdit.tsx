@@ -41,8 +41,7 @@ export default function ProductModelEdit(props: any) {
       },
     });
   };
-
-  // console.log(editProducts, "editProducts");
+  
 
   return (
     <div>
